@@ -8,6 +8,30 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - cache:/data
+  grafana:
+    ports:
+      - "3000:3000"
+    volumes:
+      - /var/lib/grafana
+    links:
+      - prometheus
+    image: grafana/grafana
+  prometheus:
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    image: prom/prometheus
+  user-service:
+    volumes:
+      - ./data/users_dataset.csv:/users_dataset.csv
+    container_name: praca-magisterska
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: praca-magisterska:latest
+    ports:
+      - "8080:8080"
 
 volumes:
   cache:
