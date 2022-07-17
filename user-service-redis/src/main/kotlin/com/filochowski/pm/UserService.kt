@@ -1,14 +1,7 @@
 package com.filochowski.pm
 
-import org.apache.catalina.User
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
-import java.io.FileNotFoundException
-import java.nio.file.Files
-import java.nio.file.Path
-import java.time.LocalDate
 import java.util.*
-import java.util.stream.Stream
 
 @Component
 class UserService(val repo: UserRepo) {

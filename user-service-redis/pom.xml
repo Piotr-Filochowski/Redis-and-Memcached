@@ -3,22 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>com.filochowski</groupId>
+        <artifactId>praca-magisterska</artifactId>
+        <version>1.0</version>
     </parent>
-    <groupId>com.filochowski</groupId>
-    <artifactId>praca-magisterska</artifactId>
+    <artifactId>user-service-redis</artifactId>
     <version>1.0</version>
-    <name>Praca Magisterska</name>
-    <description>Praca Magisterska</description>
-
-    <packaging>pom</packaging>
-    <modules>
-        <module>user-service-redis</module>
-    </modules>
-
+    <name>user-service-redis</name>
+    <description>user-service-redis</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>17</java.version>
         <kotlin.version>1.6.21</kotlin.version>
@@ -44,7 +37,6 @@
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -58,12 +50,12 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
-        <sourceDirectory>user-service-redis/src/main/kotlin</sourceDirectory>
-        <testSourceDirectory>user-service-redis/src/test/kotlin</testSourceDirectory>
+        <finalName>user-service-redis</finalName>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
