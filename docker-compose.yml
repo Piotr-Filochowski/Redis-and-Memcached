@@ -22,14 +22,14 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     image: prom/prometheus
-  user-service:
+  user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
     container_name: praca-magisterska
     build:
-      context: .
+      context: ./user-service-redis
       dockerfile: Dockerfile
-    image: praca-magisterska:latest
+    image: user-service-redis:latest
     ports:
       - "8080:8080"
 
