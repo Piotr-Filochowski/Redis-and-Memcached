@@ -25,7 +25,7 @@ services:
   user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
-    container_name: praca-magisterska
+    container_name: user-service-redis
     build:
       context: ./user-service-redis
       dockerfile: Dockerfile
