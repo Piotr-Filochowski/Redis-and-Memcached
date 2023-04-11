@@ -25,11 +25,9 @@ services:
   user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
-    container_name: user-service-redis
     build:
       context: ./user-service-redis
       dockerfile: Dockerfile
-    image: user-service-redis:latest
     ports:
       - "8080:8080"
 

@@ -17,10 +17,10 @@ data class UserEntity(
     val gender: String,
     val country: String,
     val occupation: String,
-    val birthYear: LocalDate,
-    val deathYear: LocalDate,
+    val birthYear: LocalDate?,
+    val deathYear: LocalDate?,
     val mannerOfDeath: String,
-    val ageOfDeath: Int
+    val ageOfDeath: Int?
 ) {
 
     companion object {
@@ -67,10 +67,10 @@ data class UserDto(
     val gender: String,
     val country: String,
     val occupation: String,
-    val birthYear: LocalDate,
-    val deathYear: LocalDate,
+    val birthYear: LocalDate?,
+    val deathYear: LocalDate?,
     val mannerOfDeath: String,
-    val ageOfDeath: Int
+    val ageOfDeath: Int?
 ) {
     companion object {
         @JvmStatic
