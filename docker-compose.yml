@@ -16,6 +16,9 @@ services:
     links:
       - prometheus
     image: grafana/grafana
+    depends_on:
+      - influxdb
+      - prometheus
   influxdb:
     image: influxdb:1.7
     restart: always
@@ -69,6 +72,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-redis
       - SPRING_DATASOURCE_PASSWORD=postgres-user-redis
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    depends_on:
+      - postgres-user-service-redis
   user-service:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
@@ -83,6 +88,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-service
       - SPRING_DATASOURCE_PASSWORD=postgres-user-service
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    depends_on:
+      - postgres-user-service
   user-service-memcached:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
@@ -97,6 +104,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-memcached
       - SPRING_DATASOURCE_PASSWORD=postgres-user-memcached
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    depends_on:
+      - postgres-user-service-memcached
 
 volumes:
   cache:
