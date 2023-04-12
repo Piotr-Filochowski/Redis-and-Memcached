@@ -12,10 +12,19 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - /var/lib/grafana
+      - grafana-storage:/var/lib/grafana
     links:
       - prometheus
     image: grafana/grafana
+  influxdb:
+    image: influxdb:1.7
+    restart: always
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: actualdb
   prometheus:
     ports:
       - "9090:9090"
@@ -92,3 +101,8 @@ services:
 volumes:
   cache:
     driver: local
+
+  grafana-storage:
+    external: true
+  influxdb-storage:
+    external: true
