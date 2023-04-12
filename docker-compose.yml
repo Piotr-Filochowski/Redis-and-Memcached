@@ -22,6 +22,30 @@ services:
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     image: prom/prometheus
+  postgres-user-service-redis:
+    image: 'postgres:latest'
+    container_name: postgres-user-redis
+    environment:
+      - POSTGRES_USER=postgres-user-redis
+      - POSTGRES_PASSWORD=postgres-user-redis
+    ports:
+      - "5432:5432"
+  postgres-user-service:
+    image: 'postgres:latest'
+    container_name: postgres-user-service
+    environment:
+      - POSTGRES_USER=postgres-user-service
+      - POSTGRES_PASSWORD=postgres-user-service
+    ports:
+      - "5433:5432"
+  postgres-user-service-memcached:
+    image: 'postgres:latest'
+    container_name: postgres-user-service-memcached
+    environment:
+      - POSTGRES_USER=postgres-user-memcached
+      - POSTGRES_PASSWORD=postgres-user-memcached
+    ports:
+      - "5434:5432"
   user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
@@ -36,26 +60,34 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-redis
       - SPRING_DATASOURCE_PASSWORD=postgres-user-redis
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
-  postgres-user-redis:
-    image: 'postgres:latest'
-    container_name: postgres-user-redis
-    environment:
-      - POSTGRES_USER=postgres-user-redis
-      - POSTGRES_PASSWORD=postgres-user-redis
+  user-service:
+    volumes:
+      - ./data/users_dataset.csv:/users_dataset.csv
+      - ./data/users_dataset2.csv:/users_dataset2.csv
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
     ports:
-      - "5432:5432"
-  database-m:
-    image: 'postgres:latest'
-    container_name: db
+      - "8081:8080"
     environment:
-      - POSTGRES_USER=db_m_user
-      - POSTGRES_PASSWORD=db_m_user
-  database-n:
-    image: 'postgres:latest'
-    container_name: db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-service:5432/postgres-user-service
+      - SPRING_DATASOURCE_USERNAME=postgres-user-service
+      - SPRING_DATASOURCE_PASSWORD=postgres-user-service
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+  user-service-memcached:
+    volumes:
+      - ./data/users_dataset.csv:/users_dataset.csv
+      - ./data/users_dataset2.csv:/users_dataset2.csv
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
     environment:
-      - POSTGRES_USER=db_n_user
-      - POSTGRES_PASSWORD=db_n_user
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-service-memcached:5432/postgres-user-memcached
+      - SPRING_DATASOURCE_USERNAME=postgres-user-memcached
+      - SPRING_DATASOURCE_PASSWORD=postgres-user-memcached
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
 
 volumes:
   cache:

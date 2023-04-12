@@ -11,4 +11,7 @@ scrape_configs:
     metrics_path: '/actuator/prometheus' # Job to scrape application metrics
     scrape_interval: 5s
     static_configs:
-      - targets: ['user-service:8080']
+      - targets:
+        - 'user-service:8080'
+        - 'user-service-redis:8080'
+        - 'user-service-memcached:8080'
