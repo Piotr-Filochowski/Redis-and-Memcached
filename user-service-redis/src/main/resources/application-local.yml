@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres-user-redis
+    username: postgres-user-redis
+    password: postgres-user-redis
+  jpa:
+    hibernate:
+      ddl-auto: create-drop

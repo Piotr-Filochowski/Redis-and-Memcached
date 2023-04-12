@@ -25,11 +25,37 @@ services:
   user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
+      - ./data/users_dataset2.csv:/users_dataset2.csv
     build:
       context: ./user-service-redis
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-redis:5432/postgres-user-redis
+      - SPRING_DATASOURCE_USERNAME=postgres-user-redis
+      - SPRING_DATASOURCE_PASSWORD=postgres-user-redis
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+  postgres-user-redis:
+    image: 'postgres:latest'
+    container_name: postgres-user-redis
+    environment:
+      - POSTGRES_USER=postgres-user-redis
+      - POSTGRES_PASSWORD=postgres-user-redis
+    ports:
+      - "5432:5432"
+  database-m:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=db_m_user
+      - POSTGRES_PASSWORD=db_m_user
+  database-n:
+    image: 'postgres:latest'
+    container_name: db
+    environment:
+      - POSTGRES_USER=db_n_user
+      - POSTGRES_PASSWORD=db_n_user
 
 volumes:
   cache:

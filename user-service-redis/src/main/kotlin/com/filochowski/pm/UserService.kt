@@ -16,5 +16,4 @@ class UserService(val repo: UserRepo) {
             throw UserNotFoundException("User with id $userId not found")
         } else return optUser.get()
     }
-
 }

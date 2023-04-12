@@ -11,7 +11,7 @@ import java.util.*
 
 
 @Component
-class CsvLoaderService(val repo: UserRepo) {
+class CsvLoaderService(private val repo: UserRepo) {
 
 
     fun loadCsv(pathString: String, deleteAll: Boolean = false) {
@@ -43,19 +43,18 @@ class CsvLoaderService(val repo: UserRepo) {
     }
 
     private fun mapAndSave(split: Array<String>) {
-        val user = UserEntity(
-            id = UUID.randomUUID().toString(),
-            csvId = split[0],
-            name = split[1],
-            description = split[2],
-            gender = split[3],
-            country = split[4],
-            occupation = split[5],
-            birthYear = parseDate(split[6]),
-            deathYear = parseDate(split[7]),
-            mannerOfDeath = split[8],
-            ageOfDeath = parseAgeOfDeath(split[9])
-        )
+        val user = UserEntity()
+        user.id = UUID.randomUUID().toString()
+        user.csvId = split[0]
+        user.name = split[1]
+        user.description = split[2]
+        user.gender = split[3]
+        user.country = split[4]
+        user.occupation = split[5]
+        user.birthYear = parseDate(split[6])
+        user.deathYear = parseDate(split[7])
+        user.mannerOfDeath = split[8]
+        user.ageOfDeath = parseAgeOfDeath(split[9])
         repo.save(user)
     }
 

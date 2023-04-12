@@ -27,5 +27,5 @@ class Controller(
     fun getUser(@PathVariable("userId") userId: String) = UserDto.fromEntity(userService.findById(userId))
 
     @GetMapping("/load-csv")
-    fun loadCsv() = csvService.loadCsv("/users_dataset.csv", true)
+    fun loadCsv(@RequestParam pathToFile: String) = csvService.loadCsv(pathToFile, true)
 }

@@ -1,43 +1,70 @@
 package com.filochowski.pm
 
-import org.springframework.data.redis.core.RedisHash
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
 import java.time.LocalDate
 import java.util.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.Id
+import javax.persistence.Table
 
 // Id,Name,Short description,Gender,Country,Occupation,Birth year,Death year,Manner of death,Age of death
 
-@RedisHash("user")
-data class UserEntity(
-    val id: String,
-    val csvId: String,
-    val name: String,
-    val description: String,
-    val gender: String,
-    val country: String,
-    val occupation: String,
-    val birthYear: LocalDate?,
-    val deathYear: LocalDate?,
-    val mannerOfDeath: String,
-    val ageOfDeath: Int?
-) {
+
+@Entity
+@Table(name = "users")
+open class UserEntity {
+    @Id
+    open var id: String= ""
+
+    @Column
+    var csvId: String = ""
+
+    @Column
+    var name: String = ""
+
+    @Column
+    var description: String = ""
+
+    @Column
+    var gender: String = ""
+
+    @Column
+    var country: String = ""
+
+    @Column
+    var occupation: String = ""
+
+    @Column
+    var birthYear: LocalDate? = null
+
+    @Column
+    var deathYear: LocalDate? = null
+
+    @Column
+    var mannerOfDeath: String = ""
+
+    @Column
+    var ageOfDeath: Int? = 0
 
     companion object {
         @JvmStatic
-        fun fromCreateUserRequest(request: CreateUserRequestDto) = UserEntity(
-            id = UUID.randomUUID().toString(),
-            csvId = request.csvId,
-            name = request.name,
-            description = request.description,
-            gender = request.gender,
-            country = request.country,
-            occupation = request.occupation,
-            birthYear = request.birthYear,
-            deathYear = request.deathYear,
-            mannerOfDeath = request.mannerOfDeath,
-            ageOfDeath = request.ageOfDeath
-        )
+        fun fromCreateUserRequest(request: CreateUserRequestDto): UserEntity {
+            val entity = UserEntity()
+            entity.id = UUID.randomUUID().toString()
+            entity.csvId = request.csvId
+            entity.name = request.name
+            entity.description = request.description
+            entity.gender = request.gender
+            entity.country = request.country
+            entity.occupation = request.occupation
+            entity.birthYear = request.birthYear
+            entity.deathYear = request.deathYear
+            entity.mannerOfDeath = request.mannerOfDeath
+            entity.ageOfDeath = request.ageOfDeath
+            return entity
+        }
     }
 }
 
