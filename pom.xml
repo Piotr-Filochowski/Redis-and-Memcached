@@ -18,6 +18,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>user-service-redis</module>
+        <module>user-service</module>
+        <module>user-service-memcached</module>
     </modules>
 
 </project>
