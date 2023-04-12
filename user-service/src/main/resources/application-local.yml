@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres-user-redis
-    username: postgres-user-redis
-    password: postgres-user-redis
+    url: jdbc:postgresql://localhost:5433/postgres-user-service
+    username: postgres-user-service
+    password: postgres-user-service
   jpa:
     hibernate:
       ddl-auto: create-drop

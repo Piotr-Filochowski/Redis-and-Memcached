@@ -1,19 +1,18 @@
-# Getting Started
 
-## Make scripts executable:
+### Make scripts executable:
 
 ~~~
 chmod +x ./run.sh
 chmod +x ./stop.sh
 ~~~
 
-## Starting up project:
+### Starting up project:
 
 ~~~
 ./run.sh
 ~~~
 
-## Stopping project:
+### Stopping project:
 
 ~~~
 ./stop.sh
