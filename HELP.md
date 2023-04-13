@@ -12,8 +12,12 @@ chmod +x ./stop.sh
 ./run.sh
 ~~~
 
-### Stopping project:
+## TODO
 
-~~~
-./stop.sh
-~~~
+- Mamy serwis który działa na postgresql i trzeba dorobić do niego redisa
+
+- Mamy serwis który działa na postgresql i trzeba dorobić do niego memcached
+
+- Trzeba dorobić metryki żeby było widać jak zachowuje się aplikacja w trakcie testów
+
+- trzeba dorobić konfiguracje w JMeter żeby strzelał tak jak chcemy w naszą aplikacje
