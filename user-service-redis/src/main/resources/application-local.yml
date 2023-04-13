@@ -6,3 +6,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  redis:
+    host: localhost
+    database: 0
+    port: 6379
+    password: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    timeout: 30000

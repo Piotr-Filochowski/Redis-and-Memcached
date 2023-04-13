@@ -74,6 +74,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
     depends_on:
       - postgres-user-service-redis
+      - redis
   user-service:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
