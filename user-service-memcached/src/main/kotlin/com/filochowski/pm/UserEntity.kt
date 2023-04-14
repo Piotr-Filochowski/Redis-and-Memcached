@@ -71,51 +71,20 @@ open class UserEntity {
 class ResponseDto(val data: Collection<UserEntity>)
 
 class CreateUserRequestDto(
-    val csvId: String,
-    val name: String,
-    val description: String,
-    val gender: String,
-    val country: String,
-    val occupation: String,
-    val birthYear: LocalDate,
-    val deathYear: LocalDate,
-    val mannerOfDeath: String,
-    val ageOfDeath: Int
+        val csvId: String,
+        val name: String,
+        val description: String,
+        val gender: String,
+        val country: String,
+        val occupation: String,
+        val birthYear: LocalDate,
+        val deathYear: LocalDate,
+        val mannerOfDeath: String,
+        val ageOfDeath: Int
 )
 
 class CreatedResponseDto(val id: String)
 
-
-data class UserDto(
-    val id: String,
-    val csvId: String,
-    val name: String,
-    val description: String,
-    val gender: String,
-    val country: String,
-    val occupation: String,
-    val birthYear: LocalDate?,
-    val deathYear: LocalDate?,
-    val mannerOfDeath: String,
-    val ageOfDeath: Int?
-) {
-    companion object {
-        @JvmStatic
-        fun fromEntity(entity: UserEntity) = UserDto(
-            id = entity.id,
-            csvId = entity.csvId,
-            name = entity.name,
-            description = entity.description,
-            gender = entity.gender,
-            country = entity.country,
-            occupation = entity.occupation,
-            birthYear = entity.birthYear,
-            deathYear = entity.deathYear,
-            mannerOfDeath = entity.mannerOfDeath,
-            ageOfDeath = entity.ageOfDeath
-        )
-    }
-}
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class UserNotFoundException(message: String?) : RuntimeException(message)

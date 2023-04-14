@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres-user-redis
-    username: postgres-user-redis
-    password: postgres-user-redis
+    url: jdbc:postgresql://localhost:5434/postgres-user-memcached
+    username: postgres-user-memcached
+    password: postgres-user-memcached
   jpa:
     hibernate:
       ddl-auto: create-drop
