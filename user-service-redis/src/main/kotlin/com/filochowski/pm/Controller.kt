@@ -1,6 +1,7 @@
 package com.filochowski.pm
 
 import io.micrometer.core.annotation.Timed
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -22,6 +23,7 @@ class Controller(
     @ResponseStatus(HttpStatus.CREATED)
     fun save(@RequestBody request: CreateUserRequestDto) = CreatedResponseDto(userService.save(request))
 
+    @Cacheable(value = ["userByCsvId"], key="#p0")
     @GetMapping("/{csvId}")
     fun getUser(@PathVariable("csvId") csvId: String) = UserDto.fromEntity(userService.finByCsvId(csvId))
 

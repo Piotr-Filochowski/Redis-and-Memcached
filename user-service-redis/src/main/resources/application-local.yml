@@ -6,6 +6,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+  cache:
+    type: redis
   redis:
     host: localhost
     database: 0
