@@ -8,7 +8,6 @@ import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
 import javax.persistence.Table
-import kotlinx.serialization.Serializable
 
 // Id,Name,Short description,Gender,Country,Occupation,Birth year,Death year,Manner of death,Age of death
 
@@ -86,7 +85,7 @@ class CreateUserRequestDto(
 
 class CreatedResponseDto(val id: String)
 
-@Serializable
+
 data class UserDto(
     val id: String,
     val csvId: String,

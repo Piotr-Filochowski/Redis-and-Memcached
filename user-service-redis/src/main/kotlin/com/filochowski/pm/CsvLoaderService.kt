@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.FileReader
 import java.io.IOException
+import java.nio.file.Files
 import java.time.LocalDate
 import java.util.*
 
@@ -15,8 +16,14 @@ import java.util.*
 @Component
 class CsvLoaderService(private val repo: UserRepo) {
 
+    private fun tempDir() {
+        val tmpdir = Files.createTempDirectory("PM_").toFile().absolutePath
+        val tmpDirsLocation = System.getProperty("java.io.tmpdir")
+
+    }
+
     fun loadFromFile(multipartFile: MultipartFile, deleteAll: Boolean = false) {
-        val file = File("/tmp/file_${UUID.randomUUID()}.csv")
+        val file = File(System.getProperty("java.io.tmpdir"), "file_${UUID.randomUUID()}.csv")
         multipartFile.transferTo(file)
         loadCsv(file.path, deleteAll)
     }
