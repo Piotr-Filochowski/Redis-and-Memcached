@@ -7,7 +7,10 @@ class UserService(val repo: UserRepo) {
 
     fun findAll(): List<UserEntity> = repo.findAll().toList()
 
-    fun finByCsvId(csvId: String): UserEntity = repo.findByCsvId(csvId) ?: throw UserNotFoundException("User with id $csvId not found")
+    fun finByCsvId(csvId: String): UserEntity {
+        println("Querying db for $csvId")
+        return repo.findByCsvId(csvId) ?: throw UserNotFoundException("User with id $csvId not found")
+    }
 
     fun save(request: CreateUserRequestDto) = repo.save(UserEntity.fromCreateUserRequest(request)).id
 

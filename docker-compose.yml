@@ -37,6 +37,7 @@ services:
   postgres-user-service-redis:
     image: 'postgres:latest'
     container_name: postgres-user-redis
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-redis
       - POSTGRES_PASSWORD=postgres-user-redis
@@ -45,6 +46,7 @@ services:
   postgres-user-service:
     image: 'postgres:latest'
     container_name: postgres-user-service
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-service
       - POSTGRES_PASSWORD=postgres-user-service
@@ -53,6 +55,7 @@ services:
   postgres-user-service-memcached:
     image: 'postgres:latest'
     container_name: postgres-user-service-memcached
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-memcached
       - POSTGRES_PASSWORD=postgres-user-memcached
