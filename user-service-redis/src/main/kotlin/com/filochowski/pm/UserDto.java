@@ -41,21 +41,7 @@ public class UserDto implements Serializable {
         this.ageOfDeath = ageOfDeath;
     }
 
-    public static UserDto fromEntity(UserEntity entity) {
-        return new UserDto(
-                entity.getId(),
-                entity.getCsvId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getGender(),
-                entity.getCountry(),
-                entity.getOccupation(),
-                entity.getBirthYear(),
-                entity.getDeathYear(),
-                entity.getMannerOfDeath(),
-                entity.getAgeOfDeath()
-        );
-    }
+
 
     public String getId() {
         return id;

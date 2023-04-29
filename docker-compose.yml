@@ -80,6 +80,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-redis
       - SPRING_DATASOURCE_PASSWORD=postgres-user-redis
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - REDIS_HOSTNAME=redis
     depends_on:
       - postgres-user-service-redis
       - redis
@@ -113,8 +114,10 @@ services:
       - SPRING_DATASOURCE_USERNAME=postgres-user-memcached
       - SPRING_DATASOURCE_PASSWORD=postgres-user-memcached
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - MEMCACHED_CACHE_SERVERS=memcached:11211
     depends_on:
       - postgres-user-service-memcached
+      - memcached
 
 volumes:
   cache:

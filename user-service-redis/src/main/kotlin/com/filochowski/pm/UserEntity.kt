@@ -1,6 +1,5 @@
 package com.filochowski.pm
 
-import kotlinx.serialization.Serializable
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
 import java.time.LocalDate
@@ -86,39 +85,7 @@ class CreateUserRequestDto(
 
 class CreatedResponseDto(val id: String)
 
-@Serializable
-data class UserDto2(
-    val id: String,
-    val csvId: String,
-    val name: String,
-    val description: String,
-    val gender: String,
-    val country: String,
-    val occupation: String,
-    @Serializable(with = LocalDateSerializer::class)
-    val birthYear: LocalDate?,
-    @Serializable(with = LocalDateSerializer::class)
-    val deathYear: LocalDate?,
-    val mannerOfDeath: String,
-    val ageOfDeath: Int?
-) {
-    companion object {
-        @JvmStatic
-        fun fromEntity(entity: UserEntity) = UserDto2(
-            id = entity.id,
-            csvId = entity.csvId,
-            name = entity.name,
-            description = entity.description,
-            gender = entity.gender,
-            country = entity.country,
-            occupation = entity.occupation,
-            birthYear = entity.birthYear,
-            deathYear = entity.deathYear,
-            mannerOfDeath = entity.mannerOfDeath,
-            ageOfDeath = entity.ageOfDeath
-        )
-    }
-}
+
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class UserNotFoundException(message: String?) : RuntimeException(message)

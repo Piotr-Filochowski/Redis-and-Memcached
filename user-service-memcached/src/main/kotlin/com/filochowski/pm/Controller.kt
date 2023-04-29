@@ -25,7 +25,7 @@ class Controller(
 
     @Cacheable(value = ["userByCsvId"], key="#p0")
     @GetMapping("/{csvId}")
-    fun getUser(@PathVariable("csvId") csvId: String) = UserDto.fromEntity(userService.finByCsvId(csvId))
+    fun getUser(@PathVariable("csvId") csvId: String) = Util.fromEntity(userService.finByCsvId(csvId))
 
     @GetMapping("/load-csv")
     fun loadCsv(@RequestParam pathToFile: String) = csvService.loadCsv(pathToFile, true)
