@@ -1,6 +1,7 @@
 package com.filochowski.pm
 
 import io.micrometer.core.annotation.Timed
+import org.slf4j.LoggerFactory
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -15,9 +16,10 @@ class Controller(
     @Timed()
     @GetMapping
     fun getAll() = ResponseDto(userService.findAll())
-
     @GetMapping("/findAll")
-    fun findAll() = userService.findAll()
+    fun findAll() : List<UserEntity> {
+        return userService.findAll()
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -32,4 +34,9 @@ class Controller(
 
     @GetMapping("/load-csv-file")
     fun loadCsvFile(@RequestPart file: MultipartFile) = csvService.loadFromFile(file, true)
+
+
+    companion object {
+        val logger = LoggerFactory.getLogger(Controller::class.java)
+    }
 }
