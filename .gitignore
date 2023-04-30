@@ -32,3 +32,6 @@ build/
 .vscode/
 
 /data/
+/postgres-user-service/
+/postgres-user-service-memcached/
+/postgres-user-service-redis/
