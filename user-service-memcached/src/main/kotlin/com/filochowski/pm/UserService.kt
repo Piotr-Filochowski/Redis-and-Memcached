@@ -1,20 +1,12 @@
 package com.filochowski.pm
 
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 @Component
-class UserService(val repo: UserRepo,
-                  @Value("\${memcached.cache.servers}")
-                  private val memcacheAddress: String) {
+class UserService(val repo: UserRepo) {
 
-
-
-    fun findAll(): List<UserEntity>  {
-        logger.info("memcache address $memcacheAddress")
-        return repo.findAll().toList()
-    }
+    fun findAll(): List<UserEntity> = repo.findAll().toList()
 
     fun finByCsvId(csvId: String): UserEntity {
         logger.info("Querying db for $csvId")
@@ -30,6 +22,8 @@ class UserService(val repo: UserRepo,
         } else return optUser.get()
     }
 
+    fun count() = repo.count()
+    fun deleteAll() = repo.deleteAll()
 
     companion object {
         val logger = LoggerFactory.getLogger(UserService::class.java)

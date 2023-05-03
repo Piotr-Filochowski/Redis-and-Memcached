@@ -2,6 +2,7 @@ package com.filochowski.pm
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
+import java.lang.Exception
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.Column
@@ -59,11 +60,20 @@ open class UserEntity {
             entity.gender = request.gender
             entity.country = request.country
             entity.occupation = request.occupation
-            entity.birthYear = request.birthYear
-            entity.deathYear = request.deathYear
+            entity.birthYear = parseLocalDate(request.birthYear)
+            entity.deathYear = parseLocalDate(request.deathYear)
             entity.mannerOfDeath = request.mannerOfDeath
             entity.ageOfDeath = request.ageOfDeath
             return entity
+        }
+
+        private fun parseLocalDate(yearString: String): LocalDate? {
+            return try {
+                val year = yearString.toInt()
+                LocalDate.of(year, 1, 1)
+            } catch (ex: Exception) {
+                null
+            }
         }
     }
 }
@@ -77,14 +87,45 @@ class CreateUserRequestDto(
         val gender: String,
         val country: String,
         val occupation: String,
-        val birthYear: LocalDate,
-        val deathYear: LocalDate,
+        val birthYear: String,
+        val deathYear: String,
         val mannerOfDeath: String,
         val ageOfDeath: Int
 )
 
 class CreatedResponseDto(val id: String)
 
+
+data class UserDto(
+        val id: String,
+        val csvId: String,
+        val name: String,
+        val description: String,
+        val gender: String,
+        val country: String,
+        val occupation: String,
+        val birthYear: Int?,
+        val deathYear: Int?,
+        val mannerOfDeath: String,
+        val ageOfDeath: Int?
+) {
+    companion object {
+        @JvmStatic
+        fun fromEntity(entity: UserEntity) = UserDto(
+                id = entity.id,
+                csvId = entity.csvId,
+                name = entity.name,
+                description = entity.description,
+                gender = entity.gender,
+                country = entity.country,
+                occupation = entity.occupation,
+                birthYear = entity.birthYear?.year,
+                deathYear = entity.deathYear?.year,
+                mannerOfDeath = entity.mannerOfDeath,
+                ageOfDeath = entity.ageOfDeath
+        )
+    }
+}
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class UserNotFoundException(message: String?) : RuntimeException(message)

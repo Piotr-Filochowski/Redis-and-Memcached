@@ -21,6 +21,8 @@ class UserService(val repo: UserRepo) {
             throw UserNotFoundException("User with id $userId not found")
         } else return optUser.get()
     }
+    fun count() = repo.count()
+    fun deleteAll() = repo.deleteAll()
 
     companion object {
         val logger = LoggerFactory.getLogger(UserService::class.java)
