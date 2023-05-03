@@ -11,12 +11,18 @@ class Controller(
     val userService: UserService,
     val csvService: CsvLoaderService) {
 
-    @Timed()
+
     @GetMapping
     fun getAll() = ResponseDto(userService.findAll())
 
     @GetMapping("/findAll")
     fun findAll() = userService.findAll()
+
+    @GetMapping("/count")
+    fun count() = userService.count()
+
+    @PostMapping("/clear")
+    fun deleteAll() = userService.deleteAll()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

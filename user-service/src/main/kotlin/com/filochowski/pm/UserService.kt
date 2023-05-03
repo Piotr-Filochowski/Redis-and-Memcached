@@ -22,6 +22,9 @@ class UserService(val repo: UserRepo) {
         } else return optUser.get()
     }
 
+    fun count() = repo.count()
+    fun deleteAll() = repo.deleteAll()
+
     companion object {
         val logger = LoggerFactory.getLogger(UserService::class.java)
     }

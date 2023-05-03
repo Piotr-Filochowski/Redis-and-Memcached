@@ -28,3 +28,10 @@ memcached.cache:
     cache_name1: 1h
     cache_name2: 30h
   metrics-cache-names: cache_name1, cache_name2
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 150000000
+      max-request-size: 150000000

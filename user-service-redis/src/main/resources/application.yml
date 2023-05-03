@@ -17,3 +17,10 @@ redis:
   database: 0
   password: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
   timeout: 10000
+
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 150000000
+      max-request-size: 150000000
