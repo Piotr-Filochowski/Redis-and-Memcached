@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepo: CrudRepository<UserEntity, String> {
-    fun findByCsvId(csvId: String): UserEntity?
+    fun findByCsvId(csvId: String): List<UserEntity>
 }

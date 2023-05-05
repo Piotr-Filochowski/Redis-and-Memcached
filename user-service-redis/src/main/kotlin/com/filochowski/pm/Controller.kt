@@ -1,6 +1,5 @@
 package com.filochowski.pm
 
-import io.micrometer.core.annotation.Timed
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
