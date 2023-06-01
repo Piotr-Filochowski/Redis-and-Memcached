@@ -1,6 +1,5 @@
 package com.filochowski.pm
 
-import io.micrometer.core.annotation.Timed
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -11,12 +10,18 @@ class Controller(
     val userService: UserService,
     val csvService: CsvLoaderService) {
 
-    @Timed()
+
     @GetMapping
     fun getAll() = ResponseDto(userService.findAll())
 
     @GetMapping("/findAll")
     fun findAll() = userService.findAll()
+
+    @GetMapping("/count")
+    fun count() = userService.count()
+
+    @PostMapping("/clear")
+    fun deleteAll() = userService.deleteAll()
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

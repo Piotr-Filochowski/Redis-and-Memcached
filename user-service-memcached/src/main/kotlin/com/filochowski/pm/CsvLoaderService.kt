@@ -4,8 +4,11 @@ import com.opencsv.CSVReader
 import com.opencsv.exceptions.CsvValidationException
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
 import java.io.FileReader
 import java.io.IOException
+import java.nio.file.Files
 import java.time.LocalDate
 import java.util.*
 
@@ -13,6 +16,17 @@ import java.util.*
 @Component
 class CsvLoaderService(private val repo: UserRepo) {
 
+    private fun tempDir() {
+        val tmpdir = Files.createTempDirectory("PM_").toFile().absolutePath
+        val tmpDirsLocation = System.getProperty("java.io.tmpdir")
+
+    }
+
+    fun loadFromFile(multipartFile: MultipartFile, deleteAll: Boolean = false) {
+        val file = File(System.getProperty("java.io.tmpdir"), "file_${UUID.randomUUID()}.csv")
+        multipartFile.transferTo(file)
+        loadCsv(file.path, deleteAll)
+    }
 
     fun loadCsv(pathString: String, deleteAll: Boolean = false) {
         var savedUserCounter: Long = 0
@@ -22,13 +36,13 @@ class CsvLoaderService(private val repo: UserRepo) {
             log.info("Deleted all elements")
         }
         val reader = CSVReader(FileReader(pathString))
-        var nextLine: Array<String>? = emptyArray()
-        while (true) {
+        var nextLine: Array<String>? = reader.readNext()
+        while (nextLine != null) {
             try {
-                nextLine = reader.readNext()
                 mapAndSave(nextLine)
                 savedUserCounter++
                 log.info("Saved line ${printNumberNicely(savedUserCounter)}")
+                nextLine = reader.readNext()
             } catch(exception: IOException) {
                 invalidLinesCounter++
                 log.warn("Read invalid line ${printNumberNicely(invalidLinesCounter)} ${exception.message} $nextLine")

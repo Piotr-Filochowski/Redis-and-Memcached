@@ -2,6 +2,7 @@ package com.filochowski.pm
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus
+import java.lang.Exception
 import java.time.LocalDate
 import java.util.*
 import javax.persistence.Column
@@ -59,11 +60,20 @@ open class UserEntity {
             entity.gender = request.gender
             entity.country = request.country
             entity.occupation = request.occupation
-            entity.birthYear = request.birthYear
-            entity.deathYear = request.deathYear
+            entity.birthYear = parseLocalDate(request.birthYear)
+            entity.deathYear = parseLocalDate(request.deathYear)
             entity.mannerOfDeath = request.mannerOfDeath
             entity.ageOfDeath = request.ageOfDeath
             return entity
+        }
+
+        private fun parseLocalDate(yearString: String): LocalDate? {
+            return try {
+                val year = yearString.toInt()
+                LocalDate.of(year, 1, 1)
+            } catch (ex: Exception) {
+                null
+            }
         }
     }
 }
@@ -77,8 +87,8 @@ class CreateUserRequestDto(
     val gender: String,
     val country: String,
     val occupation: String,
-    val birthYear: LocalDate,
-    val deathYear: LocalDate,
+    val birthYear: String,
+    val deathYear: String,
     val mannerOfDeath: String,
     val ageOfDeath: Int
 )
@@ -94,8 +104,8 @@ data class UserDto(
     val gender: String,
     val country: String,
     val occupation: String,
-    val birthYear: LocalDate?,
-    val deathYear: LocalDate?,
+    val birthYear: Int?,
+    val deathYear: Int?,
     val mannerOfDeath: String,
     val ageOfDeath: Int?
 ) {
@@ -109,8 +119,8 @@ data class UserDto(
             gender = entity.gender,
             country = entity.country,
             occupation = entity.occupation,
-            birthYear = entity.birthYear,
-            deathYear = entity.deathYear,
+            birthYear = entity.birthYear?.year,
+            deathYear = entity.deathYear?.year,
             mannerOfDeath = entity.mannerOfDeath,
             ageOfDeath = entity.ageOfDeath
         )

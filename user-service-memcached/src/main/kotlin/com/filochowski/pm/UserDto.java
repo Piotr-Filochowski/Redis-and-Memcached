@@ -41,8 +41,6 @@ public class UserDto implements Serializable {
         this.ageOfDeath = ageOfDeath;
     }
 
-
-
     public String getId() {
         return id;
     }

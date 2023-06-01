@@ -8,6 +8,11 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes:
       - cache:/data
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+      - "11211:11211"
   grafana:
     ports:
       - "3000:3000"
@@ -37,27 +42,36 @@ services:
   postgres-user-service-redis:
     image: 'postgres:latest'
     container_name: postgres-user-redis
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-redis
       - POSTGRES_PASSWORD=postgres-user-redis
+    volumes:
+      - postgres-user-service-redis:/var/lib/postgresql/data
     ports:
       - "5432:5432"
   postgres-user-service:
     image: 'postgres:latest'
     container_name: postgres-user-service
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-service
       - POSTGRES_PASSWORD=postgres-user-service
     ports:
       - "5433:5432"
+    volumes:
+      - postgres-user-service:/var/lib/postgresql/data
   postgres-user-service-memcached:
     image: 'postgres:latest'
     container_name: postgres-user-service-memcached
+    command: ["postgres", "-c", "log_statement=all"]
     environment:
       - POSTGRES_USER=postgres-user-memcached
       - POSTGRES_PASSWORD=postgres-user-memcached
     ports:
       - "5434:5432"
+    volumes:
+      - postgres-user-service-memcached:/var/lib/postgresql/data
   user-service-redis:
     volumes:
       - ./data/users_dataset.csv:/users_dataset.csv
@@ -71,7 +85,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-redis:5432/postgres-user-redis
       - SPRING_DATASOURCE_USERNAME=postgres-user-redis
       - SPRING_DATASOURCE_PASSWORD=postgres-user-redis
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - REDIS_HOSTNAME=redis
     depends_on:
       - postgres-user-service-redis
       - redis
@@ -88,7 +103,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-service:5432/postgres-user-service
       - SPRING_DATASOURCE_USERNAME=postgres-user-service
       - SPRING_DATASOURCE_PASSWORD=postgres-user-service
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       - postgres-user-service
   user-service-memcached:
@@ -96,7 +111,7 @@ services:
       - ./data/users_dataset.csv:/users_dataset.csv
       - ./data/users_dataset2.csv:/users_dataset2.csv
     build:
-      context: ./user-service
+      context: ./user-service-memcached
       dockerfile: Dockerfile
     ports:
       - "8082:8080"
@@ -104,14 +119,18 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-user-service-memcached:5432/postgres-user-memcached
       - SPRING_DATASOURCE_USERNAME=postgres-user-memcached
       - SPRING_DATASOURCE_PASSWORD=postgres-user-memcached
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - MEMCACHED_CACHE_SERVERS=memcached:11211
     depends_on:
       - postgres-user-service-memcached
+      - memcached
 
 volumes:
   cache:
     driver: local
-
+  postgres-user-service-redis: {}
+  postgres-user-service: {}
+  postgres-user-service-memcached: {}
   grafana-storage:
     external: true
   influxdb-storage:

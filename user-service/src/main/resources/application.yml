@@ -18,3 +18,9 @@ management:
     web:
       exposure:
         include: prometheus
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 150000000
+      max-request-size: 150000000

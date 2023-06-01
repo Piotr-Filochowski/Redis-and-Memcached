@@ -2,10 +2,12 @@ package com.filochowski.pm
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cache.annotation.EnableCaching
 
+@EnableCaching
 @SpringBootApplication
-class Application
+class UserServiceMemcachedApplication
 
 fun main(args: Array<String>) {
-    runApplication<Application>(*args)
+    runApplication<UserServiceMemcachedApplication>(*args)
 }

@@ -1,5 +1,6 @@
 package com.filochowski.pm
 
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -7,7 +8,14 @@ class UserService(val repo: UserRepo) {
 
     fun findAll(): List<UserEntity> = repo.findAll().toList()
 
-    fun finByCsvId(csvId: String): UserEntity = repo.findByCsvId(csvId) ?: throw UserNotFoundException("User with id $csvId not found")
+    fun finByCsvId(csvId: String): UserEntity {
+        logger.info("Querying db for $csvId")
+        val result = repo.findByCsvId(csvId)
+        if(result.isEmpty()) {
+            throw UserNotFoundException("User with id $csvId not found")
+        }
+        return  result[0]
+    }
 
     fun save(request: CreateUserRequestDto) = repo.save(UserEntity.fromCreateUserRequest(request)).id
 
@@ -16,5 +24,12 @@ class UserService(val repo: UserRepo) {
         if(optUser.isEmpty) {
             throw UserNotFoundException("User with id $userId not found")
         } else return optUser.get()
+    }
+
+    fun count() = repo.count()
+    fun deleteAll() = repo.deleteAll()
+
+    companion object {
+        val logger = LoggerFactory.getLogger(UserService::class.java)
     }
 }
